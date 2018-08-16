@@ -10,8 +10,111 @@
   </head>
 
   <body>
+
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <h1><%= link_to "EShop", root_path, class: "navbar-link" %></h1><span class="sr-only">(current)</span>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+              <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown">Shop by Category</a>
+
+              <div class="dropdown-menu">
+                <% @categories.each do |category| %>
+
+                  <%= link_to category.name, categorical_path(category_id: category.id), class: "dropdown-item" %>
+                  <div class="dropdown-divider"></div>
+                <% end %>
+                <%= link_to 'All', root_path, class: "dropdown-item" %>
+                <div class="dropdown-divider"></div>
+            </li>  
+          </ul>
+
+          <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Shop by Brand
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <% @brands.each do |brand| %>
+                <%= link_to brand, branding_path(brand: brand), class: "dropdown-item" %>
+                <div class="dropdown-divider"></div>              
+              <% end %>
+              <%= link_to 'All', root_path, class: "dropdown-item" %>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+
+      <div class="navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+          <% if user_signed_in? %>
+            <li class="nav-item dropdown"> 
+              <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <%= current_user.email %>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <%= link_to "Edit Profile", edit_user_registration_path, class: "dropdown-item" %>
+                <div class="dropdown-divider"></div> 
+                <%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: "dropdown-item" %>
+              </div>
+            </li>
+          </ul> 
+          <% else %>
+          <ul class="navbar-nav">
+              <li class="nav-item"><%= link_to "Sign In", new_user_session_path, class: "nav-link" %>
+              </li>
+          </ul>
+          <% end %>
+          <ul class="navbar-nav">
+            <li><%= link_to "View Cart", view_order_path, class: "fa fa-shopping-cart fa-2x" %> </li>
+      </div>
+    </nav>
+
+<!--     <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
+        <%= link_to "Home", root_path, class: "navbar-link" %><span class="sr-only">(current)</span>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+              <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown">Shop by Category</a>
+
+              <div class="dropdown-menu">
+                <% @categories.each do |category| %>
+
+                  <%= link_to category.name, categorical_path(category_id: category.id), class: "dropdown-item" %>
+                  <div class="dropdown-divider"></div>
+                <% end %>
+                <%= link_to 'All', root_path, class: "dropdown-item" %>
+                <div class="dropdown-divider"></div>
+            </li>  
+          </ul>
+
+          <ul class="navbar-nav float-right">
+              <li class="nav-item dropdown"><span class="caret"></span>
+                  <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <%= link_to "Edit Profile", edit_user_registration_path, class: "dropdown-item" %>
+                      <%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: "dropdown-item" %>
+                  </div>
+              </li>
+          </ul>
+    </nav> -->
+
+
     <div class="container">
       <%= yield %>
     </div>
+
+
   </body>
 </html>

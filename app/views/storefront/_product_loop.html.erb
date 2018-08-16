@@ -1,0 +1,65 @@
+<div class="row">
+	<div class="card-deck">
+	  <% @products.each do |item| %>
+	  	<% if item.quantity > 0 %>
+		    <div class="col-md-4 d-flex align-items-stretch">
+		      <div class="card mb-4">
+
+		        <div class="card-body">
+		          <% if item.image.url.nil? == false %>
+		            <p><%= image_tag item.image.url %></p>
+		          <% end %>
+		        </div>
+
+			    <div class="card-footer">
+		          <h4><a href="#" data-toggle="modal" data-target="#modal_<%= item.id %>"><%= item.name %></a></h4>
+		          <p><%= number_to_currency item.price %></p>
+		          <p><a href="#" data-toggle="modal" data-target="#modal_<%= item.id %>"><span class="fa fa-plus"></span>Quick Info</a></p>
+		        </div>
+
+		      </div>
+		    </div>
+
+<!-- modal	     -->
+		    <div class="modal fade" id="modal_<%= item.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		      <div class="modal-dialog" role="document">
+		        <div class="modal-content">
+		          <div class="modal-header">
+		            <h5 class="modal-title" id="exampleModalLabel"><%= item.name %></h5>
+		            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		              <span aria-hidden="true">&times;</span>
+		            </button>
+		          </div>
+		          <div class="modal-body">
+		            <div class="card">
+		              
+		              <div class="card-im-top">
+		                <% if item.image.url.nil? == false %>
+		                  <p><%= image_tag item.image.url, width: "100%" %></p>
+		                <% end %>
+		              </div>
+
+		              <div class="card-body">
+		                <h4><%= item.name %></h4>
+		                <p><%= number_to_currency item.price %></p>
+		                <p><%= item.description %></p>
+		              </div>
+
+		            </div>
+		          </div>
+		          <div class="modal-footer">
+		            <p>
+		            	<%= form_with(url: add_to_cart_path) do |form| %>
+		            		<%= form.hidden_field :product_id, value: item.id %>
+		            		<%= form.number_field :quantity, value: 1 %>
+		            		<%= form.submit "Add to Cart", class: "btn btn-success" %>
+		            	<% end %>
+		            </p>
+		          </div>
+		        </div>
+		      </div>
+		    </div>
+		<% end %>
+	  <% end %>
+	</div>
+</div>
